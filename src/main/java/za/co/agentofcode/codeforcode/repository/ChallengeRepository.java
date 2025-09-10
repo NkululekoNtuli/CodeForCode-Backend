@@ -1,4 +1,5 @@
 package za.co.agentofcode.codeforcode.repository;
 
-public class ChallengeRepository {
+
+public interface ChallengeRepository {
 }

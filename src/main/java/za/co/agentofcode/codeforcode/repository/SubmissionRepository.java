@@ -1,4 +1,5 @@
 package za.co.agentofcode.codeforcode.repository;
 
-public class SubmissionRepository {
+
+public interface SubmissionRepository {
 }
