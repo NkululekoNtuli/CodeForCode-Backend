@@ -8,13 +8,13 @@ import jakarta.persistence.ManyToOne;
 import java.time.Instant;
 
 @Entity
-public class Submission {
+public class Submissions {
     @Id @GeneratedValue
     private Long id;
     @ManyToOne
-    private Match match;
+    private Matches matches;
     @ManyToOne
-    private User user;
+    private Users users;
     private String language;
     private String code;
     private boolean verdict;

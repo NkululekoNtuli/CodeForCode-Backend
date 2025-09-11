@@ -1,5 +1,12 @@
 package za.co.agentofcode.codeforcode.repository;
 
 
-public interface SubmissionRepository {
+import org.springframework.data.jpa.repository.JpaRepository;
+import za.co.agentofcode.codeforcode.model.Submissions;
+import za.co.agentofcode.codeforcode.model.Users;
+
+import java.util.List;
+
+public interface SubmissionRepository extends JpaRepository<Submissions, Integer> {
+    List<Submissions> findSubmissionsByUsers_UserName(String users_userName);
 }

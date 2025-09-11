@@ -5,13 +5,13 @@ import jakarta.persistence.*;
 import java.time.Instant;
 
 @Entity
-public class Match {
+public class Matches {
     @Id @GeneratedValue
     private Long id;
     @ManyToOne
-    private User player1, player2, winner;
+    private Users player1, player2, winner;
     @ManyToOne
-    private Challenge challenge;
+    private Challenges challenges;
     private Instant startTime, endTime;
     private String status;
 }
