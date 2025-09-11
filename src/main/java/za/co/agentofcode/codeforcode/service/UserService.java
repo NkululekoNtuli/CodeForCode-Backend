@@ -24,4 +24,10 @@ public class UserService {
         Users user = new Users(name, email, password, 0, Instant.now());
         userRepository.save(user);
     }
+
+    public void updateRating(int addition, String name) {
+        Users user = userRepository.findByUserName(name).getFirst();
+        user.setRating(addition);
+        userRepository.save(user);
+    }
 }

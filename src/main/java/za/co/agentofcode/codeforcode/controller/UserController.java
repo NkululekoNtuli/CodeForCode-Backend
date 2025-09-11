@@ -4,7 +4,10 @@ import org.springframework.web.bind.annotation.*;
 import za.co.agentofcode.codeforcode.model.Users;
 import za.co.agentofcode.codeforcode.service.UserService;
 
+import java.util.Map;
+
 @RestController
+@SessionAttributes("name")
 public class UserController {
 
     private UserService userService;
@@ -13,15 +16,15 @@ public class UserController {
         this.userService = userService;
     }
 
-    @RequestMapping(value = "/user/{name}", method = RequestMethod.GET)
-    public String user(@PathVariable String name){
-        Users user = userService.getUserByName(name);
+    @RequestMapping(value = "/user", method = RequestMethod.POST)
+    public String user(@RequestBody Map<String, String> data){
+        Users user = userService.getUserByName(data.get("name"));
         return user.toString();
     }
 
-    @RequestMapping(value = "/user-registration/{name}/{email}/{password}", method = RequestMethod.GET)
-    public String registerUser(@PathVariable String name, @PathVariable String email, @PathVariable String password) {
-        userService.registerUser(name, email, password);
-        return user(name);
+    @RequestMapping(value = "/user-registration", method = RequestMethod.POST)
+    public String registerUser(@RequestBody Map<String, String> data) {
+        userService.registerUser(data.get("name"), data.get("email"), data.get("password"));
+        return userService.getUserByName(data.get("name")).toString();
     }
 }
