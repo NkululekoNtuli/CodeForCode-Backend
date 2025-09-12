@@ -25,9 +25,30 @@ public class UserService {
         userRepository.save(user);
     }
 
+    public boolean isValidUser(String userEmail, String userPassword) {
+//        try{
+//            return  true;
+////            userRepository.findUsersByEmailAddressAndPassword(userEmail, userPassword);
+//
+//        } catch (RuntimeException e) {
+//            return false;
+//        }
+        return true;
+    }
+
+    public Users getUserByEmail(String emailAddress) {
+        return userRepository.findUsersByEmailAddress(emailAddress);
+    }
+
     public void updateRating(int addition, String name) {
         Users user = userRepository.findByUserName(name).getFirst();
         user.setRating(addition);
+        userRepository.save(user);
+    }
+
+    public void updateUserName(String newUserName, String email) {
+        Users user = userRepository.findUsersByEmailAddress(email);
+        user.setUserName(newUserName);
         userRepository.save(user);
     }
 }
