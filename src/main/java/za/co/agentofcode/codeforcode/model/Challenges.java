@@ -13,4 +13,25 @@ public class Challenges {
     private String description;
     private String testCases;
     private String difficulty;
+
+
+    public Challenges(){}
+    public Challenges(String language, String name, String description, String testCases, String difficulty) {
+        this.language = language;
+        this.name = name;
+        this.description = description;
+        this.testCases = testCases;
+        this.difficulty = difficulty;
+    }
+
+    @Override
+    public String toString() {
+        return "Challenges{" +
+                "language='" + language + '\'' +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", testCases='" + testCases + '\'' +
+                ", difficulty='" + difficulty + '\'' +
+                '}';
+    }
 }

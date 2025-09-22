@@ -23,4 +23,19 @@ public class Submissions {
     private int ingenuity;
     private int score;
     private Instant submissionTime;
+
+    public Submissions(){};
+
+    public Submissions(Matches matches, Users users, String language, String code, boolean verdict, int runtimeMs, int memoryKb, int ingenuity, int score, Instant submissionTime) {
+        this.matches = matches;
+        this.users = users;
+        this.language = language;
+        this.code = code;
+        this.verdict = verdict;
+        this.runtimeMs = runtimeMs;
+        this.memoryKb = memoryKb;
+        this.ingenuity = ingenuity;
+        this.score = score;
+        this.submissionTime = submissionTime;
+    }
 }
