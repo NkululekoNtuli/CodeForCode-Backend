@@ -28,7 +28,6 @@ public class UserController {
         }else {
             return "Who are you?";
         }
-
     }
 
     @RequestMapping(value = "/user-registration", method = RequestMethod.POST)

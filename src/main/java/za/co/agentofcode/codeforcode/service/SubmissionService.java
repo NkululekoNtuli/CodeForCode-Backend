@@ -3,7 +3,6 @@ package za.co.agentofcode.codeforcode.service;
 
 import io.github.cdimascio.dotenv.Dotenv;
 import org.springframework.http.*;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import za.co.agentofcode.codeforcode.model.Matches;
@@ -32,10 +31,8 @@ public class SubmissionService {
         submissionRepository.save(submission);
     }
 
-//    public void valuateCode() {
 
-
-    public String runCode(String language, String code, String input) {
+    public String executeCodeSubmission(String language, String code, String input) {
         String Judge0URL = dotenv.get("Judge0_Base_URL");
         String Judge0API = dotenv.get("Judge0_Api");
 
@@ -69,7 +66,7 @@ public class SubmissionService {
         }
     }
 
-    // Example: call an API that expects x-api-key header
+
     public String getData() {
         RestTemplate restTemplate = new RestTemplate();
         String Judge0URL = dotenv.get("Judge0_Base_URL");

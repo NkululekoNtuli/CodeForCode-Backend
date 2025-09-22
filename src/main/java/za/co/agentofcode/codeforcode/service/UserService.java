@@ -72,37 +72,5 @@ public class UserService {
         userRepository.save(user);
     }
 
-    public String runCode(String language, String code, String input) {
-        String Judge0URL = dotenv.get("Judge0_Base_URL"+"/");
-        String Judge0API = dotenv.get("Judge0_Api");
 
-        Map<String, Object> body = new HashMap<>();
-        body.put("language_id", getLanguageId(language));
-        body.put("source_code", code);
-        body.put("stdin", input);
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        headers.set("X-RapidAPI-Key", Judge0API);
-        headers.set("X-RapidAPI-Host", Judge0URL);
-
-        HttpEntity<Map<String, Object>> entity = new HttpEntity<>(body, headers);
-
-        RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<Object> response =
-                restTemplate.postForEntity(Judge0URL + Judge0API,
-                        entity,
-                        Object.class);
-
-        return response.getBody().toString();
-    }
-
-    private int getLanguageId(String lang) {
-        switch (lang) {
-            case "python": return 71;
-            case "java": return 62;
-            case "cpp": return 54;
-            default: return 71;
-        }
-    }
 }
