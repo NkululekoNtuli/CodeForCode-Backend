@@ -1,7 +1,9 @@
 package za.co.agentofcode.codeforcode.controller;
 
+import netscape.javascript.JSObject;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import za.co.agentofcode.codeforcode.model.Matches;
 import za.co.agentofcode.codeforcode.model.Users;
@@ -39,5 +41,17 @@ public class SubmissionController {
         submissionService.creatSubmission(match, user, lang, code, verdict, runtimeMs, memoryKb, ingenuity, score, subTime);
 
         return "submission";
+    }
+
+
+    @RequestMapping(value = "submit", method = RequestMethod.POST)
+    public String sourceCode(@RequestBody Map<String, String> data){
+
+        String lang = data.get("language");
+        String code = data.get("sourceCode");
+        String input = data.get("input");
+
+        JSON response = submissionService.executeCodeSubmission(lang, code, input);
+        return   get
     }
 }
