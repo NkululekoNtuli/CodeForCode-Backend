@@ -1,7 +1,10 @@
 package za.co.agentofcode.codeforcode.service;
 
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.cdimascio.dotenv.Dotenv;
+import org.json.JSONObject;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -18,6 +21,8 @@ import java.util.Map;
 public class SubmissionService {
     private SubmissionRepository submissionRepository;
     private Dotenv dotenv = Dotenv.load();
+    private String judge0URL = dotenv.get("Judge0_Base_URL");
+    private String judge0API = dotenv.get("Judge0_Api");
 
     public SubmissionService(SubmissionRepository submissionRepository) {
         this.submissionRepository = submissionRepository;
@@ -32,10 +37,7 @@ public class SubmissionService {
     }
 
 
-    public String executeCodeSubmission(String language, String code, String input) {
-        String Judge0URL = dotenv.get("Judge0_Base_URL");
-        String Judge0API = dotenv.get("Judge0_Api");
-
+    public JSONObject executeCodeSubmission(String language, String code, String input) {
         Map<String, Object> body = new HashMap<>();
         body.put("language_id", getLanguageId(language));
         body.put("source_code", code);
@@ -43,45 +45,57 @@ public class SubmissionService {
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
-        headers.set("X-RapidAPI-Key", Judge0API);
-        headers.set("X-RapidAPI-Host", Judge0URL);
+        headers.set("X-RapidAPI-Key", judge0API);
+        headers.set("X-RapidAPI-Host", "judge0-ce.p.rapidapi.com");
 
-        HttpEntity<Map<String, Object>> entity = new HttpEntity<>(body, headers);
-
+        ObjectMapper mapper = new ObjectMapper();
         RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<Object> response =
-                restTemplate.postForEntity(Judge0URL + Judge0API,
-                        entity,
-                        Object.class);
+        String url = judge0URL + "/submissions?base64_encoded=false&wait=false";
 
-        return response.getBody().toString();
+        try {
+            String jsonBody = mapper.writeValueAsString(body);
+
+            HttpEntity<String> entity = new HttpEntity<>(jsonBody, headers);
+
+            ResponseEntity<String> response =
+                    restTemplate.postForEntity(url, entity, String.class);
+
+            return new JSONObject(response.getBody());
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+            return new JSONObject().put("error", "JSON processing failed");
+        }
     }
 
+
     private int getLanguageId(String lang) {
-        switch (lang) {
+        switch (lang.toLowerCase()) {
             case "python": return 71;
             case "java": return 62;
-            case "cpp": return 54;
             default: return 71;
         }
     }
 
 
-    public String getData() {
-        RestTemplate restTemplate = new RestTemplate();
-        String Judge0URL = dotenv.get("Judge0_Base_URL");
-        String Judge0API = dotenv.get("Judge0_Api");
-
+    public JSONObject getData(String token) {
         HttpHeaders headers = new HttpHeaders();
-        headers.set("x-api-key", Judge0API); // or "Authorization", depending on the API
-        // If the API wants JSON
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.set("X-RapidAPI-Key", judge0API);
+        headers.set("X-RapidAPI-Host", "judge0-ce.p.rapidapi.com");
         headers.set("Accept", "application/json");
 
-        HttpEntity<Void> requestEntity = new HttpEntity<>(headers);
+        HttpEntity<Void> entity = new HttpEntity<>(headers);
+        RestTemplate restTemplate = new RestTemplate();
+        String url = judge0URL + "/submissions/"+token+"?base64_encoded=false&wait=false";
+        System.out.println("get sub url:"+ url);
 
-        ResponseEntity<String> response =
-                restTemplate.exchange(Judge0URL, HttpMethod.GET, requestEntity, String.class);
+        ResponseEntity<String> response = restTemplate.exchange(
+                url,
+                HttpMethod.GET,
+                entity,
+                String.class
+        );
 
-        return response.getBody();
+        return new JSONObject(response.getBody());
     }
 }

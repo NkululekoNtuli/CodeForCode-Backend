@@ -1,6 +1,7 @@
 package za.co.agentofcode.codeforcode.controller;
 
 import netscape.javascript.JSObject;
+import org.json.JSONObject;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -47,11 +48,12 @@ public class SubmissionController {
     @RequestMapping(value = "submit", method = RequestMethod.POST)
     public String sourceCode(@RequestBody Map<String, String> data){
 
-        String lang = data.get("language");
-        String code = data.get("sourceCode");
-        String input = data.get("input");
+        String lang = data.get("language_id");
+        String code = data.get("source_code");
+        String input = data.get("stdin");
 
-        JSON response = submissionService.executeCodeSubmission(lang, code, input);
-        return   get
+        System.out.println("language: "+ lang +"\nsource code: "+ code);
+        JSONObject response = submissionService.executeCodeSubmission(lang, code, input);
+        return String.valueOf(submissionService.getData(response.get("token").toString()));
     }
 }
