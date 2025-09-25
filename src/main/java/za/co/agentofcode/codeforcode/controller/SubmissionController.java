@@ -1,6 +1,5 @@
 package za.co.agentofcode.codeforcode.controller;
 
-import netscape.javascript.JSObject;
 import org.json.JSONObject;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -8,20 +7,21 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import za.co.agentofcode.codeforcode.model.Matches;
 import za.co.agentofcode.codeforcode.model.Users;
+import za.co.agentofcode.codeforcode.service.SandBoxService;
 import za.co.agentofcode.codeforcode.service.SubmissionService;
 
 import java.time.Instant;
 import java.util.Map;
 
-import io.github.cdimascio.dotenv.Dotenv;
-
 @RestController
 public class SubmissionController {
     private SubmissionService submissionService;
+    private SandBoxService sandBoxService;
 
 
-    public SubmissionController( SubmissionService submissionService ) {
+    public SubmissionController( SubmissionService submissionService, SandBoxService sandBoxService ) {
         this.submissionService = submissionService;
+        this.sandBoxService = sandBoxService;
     }
 
     @RequestMapping("/submit-code") // using post request for large code submissions
@@ -53,7 +53,7 @@ public class SubmissionController {
         String input = data.get("stdin");
 
         System.out.println("language: "+ lang +"\nsource code: "+ code);
-        JSONObject response = submissionService.executeCodeSubmission(lang, code, input);
+        JSONObject response = sandBoxService.executeCodeSubmission(lang, code, input);
         return String.valueOf(submissionService.getData(response.get("token").toString()));
     }
 }

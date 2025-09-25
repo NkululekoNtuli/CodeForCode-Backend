@@ -16,3 +16,11 @@ e: application/json"   -H "x-rapidapi-host: judge0-ce.p.rapidapi.com"   -H "x-ra
 
 
 curl -X GET   "https://judge0-ce.p.rapidapi.com/submissions/"d0079979-594f-401c-af70-81ef0c2af8eb"?base64_encoded=false"   -H "x-rapidapi-host: judge0-ce.p.rapidapi.com"   -H "x-rapidapi-key: 637d0c6a80msh9ebaf9c986a566cp186f3bjsn35a587269587"
+
+
+
+{
+    "source_code": "name = input()\nprint(f\"hello, {name}\")",
+    "language_id": "python",
+    "stdin": "world"
+}

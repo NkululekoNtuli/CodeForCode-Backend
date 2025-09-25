@@ -1,15 +1,14 @@
 package za.co.agentofcode.codeforcode.controller;
 
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.*;
 import za.co.agentofcode.codeforcode.model.Challenges;
 import za.co.agentofcode.codeforcode.model.Matches;
 import za.co.agentofcode.codeforcode.model.Users;
 import za.co.agentofcode.codeforcode.service.ChallengeService;
 import za.co.agentofcode.codeforcode.service.MatchService;
 import za.co.agentofcode.codeforcode.service.UserService;
+import za.co.agentofcode.codeforcode.websocket.MatchSocketHandler;
 
 import java.time.Instant;
 import java.time.LocalDate;
@@ -21,9 +20,11 @@ public class MatchController {
     private  MatchService matchService;
     private UserService userService;
     private ChallengeService challengeService;
+    private final MatchSocketHandler handler;
 
-    public MatchController(MatchService matchService ) {
+    public MatchController(MatchService matchService, MatchSocketHandler handler) {
         this.matchService = matchService;
+        this.handler = handler;
     }
 
     @RequestMapping(value = "/match-making", method = RequestMethod.POST)
@@ -52,5 +53,11 @@ public class MatchController {
     public List<Matches> MatchHistory(@RequestBody Map<String, Users> data) {
         Users user = data.get("user");
         return matchService.getAllMatchesByUser(user);
+    }
+
+    @GetMapping("/test/broadcast")
+    public String send() {
+        handler.broadcastToMatch("123", "Hello CodeForCode!");
+        return "Message sent";
     }
 }
