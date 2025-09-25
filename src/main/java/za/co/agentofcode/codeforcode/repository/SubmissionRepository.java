@@ -15,4 +15,8 @@ public interface SubmissionRepository extends JpaRepository<Submissions, Integer
     List<Submissions> findAllByVerdict(boolean verdict);
 
     List<Submissions> findAllByScore(int score);
+
+    List<Submissions> findSubmissionsById(Long id);
+
+    List<Submissions> findSubmissionsByUsers(Users users);
 }

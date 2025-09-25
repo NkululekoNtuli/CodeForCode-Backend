@@ -24,9 +24,8 @@ public class SubmissionController {
         this.sandBoxService = sandBoxService;
     }
 
-    @RequestMapping("/submit-code") // using post request for large code submissions
-    public String submit(@RequestBody Map<String, Object> data) {
 
+    public String submit(@RequestBody Map<String, Object> data) {
 
         Matches match = (Matches) data.get("match");
         Users user = (Users) data.get("user");
@@ -47,13 +46,11 @@ public class SubmissionController {
 
     @RequestMapping(value = "submit", method = RequestMethod.POST)
     public String sourceCode(@RequestBody Map<String, String> data){
-
         String lang = data.get("language_id");
         String code = data.get("source_code");
         String input = data.get("stdin");
 
-        System.out.println("language: "+ lang +"\nsource code: "+ code);
         JSONObject response = sandBoxService.executeCodeSubmission(lang, code, input);
-        return String.valueOf(submissionService.getData(response.get("token").toString()));
+        return String.valueOf(sandBoxService.getData(response.get("token").toString()));
     }
 }
