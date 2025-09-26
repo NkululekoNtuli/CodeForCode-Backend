@@ -38,17 +38,10 @@ public class UserService {
     }
 
     public boolean isValidUser(String userEmail, String userPassword) {
-//        try{
-//            return  true;
-////            userRepository.findUsersByEmailAddressAndPassword(userEmail, userPassword);
-//
-//        } catch (RuntimeException e) {
-//            return false;
-//        }
-
-
-        return userRepository.searchByEmailAddressAndPassword(userEmail, userPassword);
+        Users user = userRepository.findUsersByEmailAddress(userEmail);
+        return user != null;
     }
+
 
     public Users getUserByEmail(String emailAddress) {
         return userRepository.findUsersByEmailAddress(emailAddress);
@@ -71,6 +64,4 @@ public class UserService {
         user.setUserName(newUserName);
         userRepository.save(user);
     }
-
-
 }
