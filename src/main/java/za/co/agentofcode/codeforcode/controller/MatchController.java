@@ -55,7 +55,7 @@ public class MatchController {
         return matchService.getAllMatchesByUser(user);
     }
 
-    @GetMapping("/test/broadcast")
+    @GetMapping("/test-broadcast")
     public String send() {
         handler.broadcastToMatch("123", "Hello CodeForCode!");
         return "Message sent";

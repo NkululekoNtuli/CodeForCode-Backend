@@ -32,8 +32,6 @@ public class UserService {
 
     public void registerUser(String name, String email, String password) {
         Users user = new Users(name, email, password, 0, Instant.now());
-        String code = "print('Hello World')";
-//        runCode("python", code, "");
         userRepository.save(user);
     }
 

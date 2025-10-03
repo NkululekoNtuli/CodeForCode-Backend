@@ -5,7 +5,9 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 
+import java.sql.Time;
 import java.time.Instant;
+import java.time.LocalTime;
 
 @Entity
 public class Submissions {
