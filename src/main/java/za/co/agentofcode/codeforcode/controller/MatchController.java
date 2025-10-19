@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:5173") // allow Vite dev server
 public class MatchController {
     private  MatchService matchService;
     private UserService userService;
@@ -33,7 +34,7 @@ public class MatchController {
         String player1Name = players.getFirst();
         String player2Name = players.get(1);
         String winnerName = players.get(2);
-        String challName = data.get("challengeName").toString();
+        String challengeName = data.get("challengeName").toString();
         Instant startTime = (Instant) data.get("startTime");
         Instant endTime = (Instant) data.get("endTime");
         String status = data.get("status").toString();
@@ -42,7 +43,7 @@ public class MatchController {
         Users player1 = userService.getUserByName(player1Name);
         Users player2 = userService.getUserByName(player2Name);
         Users winner = userService.getUserByName(winnerName);
-        Challenges challenge = challengeService.getChallenge(challName);
+        Challenges challenge = challengeService.getChallenge(challengeName);
 
         Matches match = new Matches(player1, player2, winner, challenge, startTime, endTime, status, date);
         matchService.createMatch(match);
