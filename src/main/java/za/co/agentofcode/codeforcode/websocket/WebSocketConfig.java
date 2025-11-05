@@ -16,10 +16,18 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
         config.setApplicationDestinationPrefixes("/app");
     }
 
+//    @Override
+//    public void registerStompEndpoints(StompEndpointRegistry registry) {
+//        // For dev you can allow all origins. Later lock this to your frontend domain.
+//        registry.addEndpoint("/ws").setAllowedOriginPatterns("*").withSockJS();
+//    }
+
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-        // For dev you can allow all origins. Later lock this to your frontend domain.
-        registry.addEndpoint("/ws").setAllowedOriginPatterns("*").withSockJS();
+        registry.addEndpoint("/test/broadcast") // same path you used in frontend
+                .setAllowedOrigins("http://localhost:5173")
+                .withSockJS(); // enables /info, /iframe.html, etc.
     }
+
 }
 

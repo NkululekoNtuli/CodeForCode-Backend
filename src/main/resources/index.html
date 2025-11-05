@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<body>
+<!-- Load dependencies first -->
+<script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/stompjs@2.3.3/lib/stomp.min.js"></script>
+
+<!-- Your connection logic -->
+<script>
+    window.addEventListener('load', function () {
+        console.log('SockJS:', typeof SockJS); // should print 'function'
+        console.log('Stomp:', typeof Stomp);   // should print 'object'
+
+        const socket = new SockJS('http://localhost:8080/ws');
+        const stomp = Stomp.over(socket);
+
+        stomp.connect({}, () => {
+            console.log('✅ Connected to WebSocket!');
+            console.log("testing stomp.connect?")
+            stomp.subscribe('/topic/match/123', msg =>
+                console.log('📩 Received:', msg.body)
+            );
+        });
+    });
+</script>
+</body>
+</html>
+
