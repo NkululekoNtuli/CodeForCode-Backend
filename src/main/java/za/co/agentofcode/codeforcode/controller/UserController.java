@@ -2,6 +2,7 @@ package za.co.agentofcode.codeforcode.controller;
 
 import org.springframework.web.bind.annotation.*;
 import za.co.agentofcode.codeforcode.model.Users;
+import za.co.agentofcode.codeforcode.service.ChallengeService;
 import za.co.agentofcode.codeforcode.service.UserService;
 
 import java.util.Map;
@@ -11,9 +12,11 @@ import java.util.Map;
 public class UserController {
 
     private UserService userService;
+    private ChallengeService challengeService;
 
-    public UserController( UserService userService ) {
+    public UserController( UserService userService, ChallengeService challengeService ) {
         this.userService = userService;
+        this.challengeService = challengeService;
     }
 
 // Do not forget to hash the password  from the front and from BL to DB
@@ -33,6 +36,7 @@ public class UserController {
     @RequestMapping(value = "/user-registration", method = RequestMethod.POST)
     public String registerUser(@RequestBody Map<String, String> data) {
         userService.registerUser(data.get("name"), data.get("email"), data.get("password"));
+        challengeService.saveChallenges();  // implement this at server startup for now
         return userService.getUserByName(data.get("name")).toString();
     }
 }

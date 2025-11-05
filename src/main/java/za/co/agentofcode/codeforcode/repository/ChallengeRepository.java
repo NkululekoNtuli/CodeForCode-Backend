@@ -14,4 +14,6 @@ public interface ChallengeRepository extends JpaRepository<Challenges, Integer> 
     List<Challenges> findAllByLanguage(String language);
 
     List<Challenges> findAllByLanguageAndDifficulty(String language, String difficulty);
+
+    void save(Challenges[] challenge);
 }
