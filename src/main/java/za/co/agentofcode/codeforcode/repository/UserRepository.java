@@ -6,7 +6,7 @@ import za.co.agentofcode.codeforcode.model.Users;
 import java.util.List;
 
 public interface UserRepository extends JpaRepository<Users, Integer> {
-    List<Users> findByUserName(String username);
+    Users findByUserName(String username);
 
     void findUsersByEmailAddressAndPassword(String email, String password);
 

@@ -1,6 +1,7 @@
 package za.co.agentofcode.codeforcode.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import za.co.agentofcode.codeforcode.model.Challenges;
 import za.co.agentofcode.codeforcode.model.Matches;
@@ -54,6 +55,13 @@ public class MatchController {
     public List<Matches> MatchHistory(@RequestBody Map<String, Users> data) {
         Users user = data.get("user");
         return matchService.getAllMatchesByUser(user);
+    }
+
+    @RequestMapping(value = "/match-queue", method = RequestMethod.POST)
+    public ResponseEntity<?> joinQueue(@RequestBody Map<String, String> body){
+        String userId = body.get("userID");
+        Matches match = matchService.addToQueue(userId);
+        return ResponseEntity.ok(match != null ? match : "waiting for opponent...");
     }
 
     @GetMapping("/test-broadcast")

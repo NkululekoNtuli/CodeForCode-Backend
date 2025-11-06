@@ -26,8 +26,7 @@ public class UserService {
     }
 
     public Users getUserByName(String userName) {
-        List<Users> users = userRepository.findByUserName(userName);
-        return users.getFirst();
+        return userRepository.findByUserName(userName);
     }
 
     public void registerUser(String name, String email, String password) {
@@ -52,7 +51,7 @@ public class UserService {
     }
 
     public void updateRating(int addition, String name) {
-        Users user = userRepository.findByUserName(name).getFirst();
+        Users user = userRepository.findByUserName(name);
         user.setRating(addition);
         userRepository.save(user);
     }
